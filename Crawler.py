@@ -21,7 +21,6 @@ class Crawler:
 					communeUrl = countyUrl+commune
 					if counter % 100 == 0 and counter > 0:
 						print(counter)
-						return
 					counter += 1
 					self.findAllData(communeUrl)
 
