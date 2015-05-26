@@ -10,7 +10,6 @@ class Crawler:
 		result = page.read()
 		print(result)
 		print("www")
-		print("www")
 
 
 

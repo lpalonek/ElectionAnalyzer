@@ -1,12 +1,11 @@
 __author__ = 'lpalonek'
 
-import cartopy.crs as ccrs
-import cartopy.io.shapereader as shpreader
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import shapefile
-from CustomProjection import CP
 
+import custom.cartopy.shapereader as shpreader
+
+from custom.CustomProjection import CP
 
 cmap = mpl.cm.Blues
 shapename = 'admin_0_countries'
