@@ -12,20 +12,28 @@ class Crawler:
 
 	def iterateOverPages(self):
 		counter = 0
-		for province in range(1, 30):
-			for county in range(1, 50):
-				for commune in range(1, 50):
-					suffix = self.addZeroPrefix(province)+self.addZeroPrefix(county)+self.addZeroPrefix(commune)
-					url = self.baseUrl+suffix
-					if self.isAdressCorrect(url):
-						self.findAllData(url)
-					else:
-						c = commune
-						break
-				if c == 1:
-					break
+		url = self.baseUrl
+		for province in self.getRegion(url):
+			provinceUrl = url+province
+			for county in self.getRegion(provinceUrl):
+				countyUrl = provinceUrl+county
+				for commune in self.getRegion(countyUrl):
+					communeUrl = countyUrl+commune
+					if counter % 100 == 0 and counter > 0:
+						print(counter)
+						return
+					counter += 1
+					self.findAllData(communeUrl)
 
-
+	def getRegion(self, url):
+		data = urllib.urlopen(url).read()
+		data = BeautifulSoup(data)
+		tag = data.find("div", {"id": "wyniki1_tabela_frek"})
+		result = set([])
+		for elem in tag.findAll("a"):
+			result.add(elem['href'][-2:])
+		# print( result)
+		return result
 
 	def addZeroPrefix(self, number):
 		if number < 10:
@@ -73,5 +81,6 @@ class Crawler:
 
 
 craw = Crawler()
+# craw.getRegion(craw.baseUrl)
 craw.iterateOverPages()
 craw.writeFile()
